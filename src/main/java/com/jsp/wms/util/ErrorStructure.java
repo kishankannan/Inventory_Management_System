@@ -17,15 +17,15 @@ public class ErrorStructure<T> {
 	public T getRootcause() {
 		return rootcause;
 	}
-	public ErrorStructure<T> setStatus(int status) {
+	public ErrorStructure setStatus(int status) {
 		this.status = status;
 		return this;
 	}
-	public ErrorStructure<T> setMessage(String message) {
+	public ErrorStructure setMessage(String message) {
 		this.message = message;
 		return this;
 	}
-	public ErrorStructure<T> setRootcause(T rootcause) {
+	public ErrorStructure setRootcause(T rootcause) {
 		this.rootcause = rootcause;
 		return this;
 	}
