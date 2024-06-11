@@ -11,5 +11,8 @@ import com.jsp.wms.util.ResponseStructure;
 public interface WareHouseService {
 
 	public ResponseEntity<ResponseStructure<WareHouseResponse>> createWareHouse(WareHouseRequest wareHouseRequest);
+
+	public ResponseEntity<ResponseStructure<WareHouseResponse>> updateWareHouse(WareHouseRequest wareHouseRequest,
+			int wareHouseId);
 	
 }
