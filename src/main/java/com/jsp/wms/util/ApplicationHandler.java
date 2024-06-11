@@ -12,8 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.jsp.wms.exception.AdminNotFoundByIdException;
 import com.jsp.wms.exception.IllegalOperationException;
+import com.jsp.wms.exception.WarehouseNotFoundByIdException;
 
 @RestControllerAdvice
 public class ApplicationHandler {
@@ -28,13 +28,13 @@ public class ApplicationHandler {
 	}
 	
 	@ExceptionHandler
-	public ResponseEntity<ErrorStructure<String>> handleIllegalOperationException(IllegalOperationException ex){
+	public ResponseEntity<ErrorStructure<String>> handleIllegalOperation(IllegalOperationException ex){
 		return errorResponse(HttpStatus.FOUND, ex.getMessage(), "Super_Admin Already Exists");
 	}
 	
 
 	@ExceptionHandler
-	public ResponseEntity<ErrorStructure<List<String>>> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+	public ResponseEntity<ErrorStructure<List<String>>> handleMethodArgumentNotValid(MethodArgumentNotValidException ex){
 		List<ObjectError> errors = ex.getAllErrors();
 		
 		
@@ -56,5 +56,9 @@ public class ApplicationHandler {
 						
 	}
 	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleWarehouseNotFoundById(WarehouseNotFoundByIdException ex){
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Warehouse id not found");
+	}
  
 }

@@ -1,5 +1,7 @@
 package com.jsp.wms.requestdto;
 
+import com.jsp.wms.enums.AdminType;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,4 +24,5 @@ public class AdminRequest {
 	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$", message = "Password must be alpha-numeric, should contain at least 1 uppercase letter,1 lowercase letter,1 special character, and 1 numeric character. It must be at least 8 characters in length")
 	private String password;
 	
+	private AdminType adminType;
 }
