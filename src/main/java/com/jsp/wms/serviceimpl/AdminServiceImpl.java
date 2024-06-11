@@ -1,17 +1,21 @@
 package com.jsp.wms.serviceimpl;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.jsp.wms.entity.Admin;
 import com.jsp.wms.entity.WareHouse;
 import com.jsp.wms.enums.AdminType;
 import com.jsp.wms.enums.Privilege;
+import com.jsp.wms.exception.AdminNotFoundByEmailException;
 import com.jsp.wms.exception.IllegalOperationException;
 import com.jsp.wms.exception.WarehouseNotFoundByIdException;
 import com.jsp.wms.mapper.AdminMapper;
@@ -51,7 +55,7 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public ResponseEntity<ResponseStructure<AdminResponse>> createAdmin(AdminRequest adminRequest,int wareHouseId) {
 		return wareHouseRepository.findById(wareHouseId).map(warehouse -> {
-			
+
 			Admin admin = adminMapper.mapToAdmin(adminRequest, new Admin());
 			admin.setAdminType(AdminType.ADMIN);
 			admin=adminRepository.save(admin);
@@ -64,7 +68,27 @@ public class AdminServiceImpl implements AdminService{
 							.setStatus(HttpStatus.CREATED.value())
 							.setMessage("Admin created")
 							.setData(adminMapper.mapToAdminResponse(admin)));
-	}).orElseThrow(() -> new WarehouseNotFoundByIdException("Warehouse with such an id does not exists"));
+		}).orElseThrow(() -> new WarehouseNotFoundByIdException("Warehouse with such an id does not exists"));
 
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdmin(@Valid AdminRequest adminRequest) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String name = authentication.getName();
+
+		return adminRepository.findByEmail(name).map(exAdmin ->{
+			
+			exAdmin = adminMapper.mapToAdmin(adminRequest, exAdmin);
+
+			Admin admin = adminRepository.save(exAdmin);
+
+            return ResponseEntity.status(HttpStatus.OK)
+            		.body(new ResponseStructure<AdminResponse>()
+            				.setStatus(HttpStatus.OK.value())
+            				.setMessage("Admin Updated")
+            				.setData(adminMapper.mapToAdminResponse(admin)));
+            		}).orElseThrow(()-> new AdminNotFoundByEmailException("Admin not found"));
 	}
 }

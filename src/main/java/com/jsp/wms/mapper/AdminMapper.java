@@ -18,7 +18,6 @@ public class AdminMapper {
 		admin.setName(adminRequest.getName());
 		admin.setEmail(adminRequest.getEmail());
 		admin.setPassword(passwordEncoder.encode(adminRequest.getPassword()));
-		admin.setAdminType(adminRequest.getAdminType());
 		return admin;
 	}
 	

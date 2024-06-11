@@ -6,12 +6,14 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.jsp.wms.exception.AdminNotFoundByEmailException;
 import com.jsp.wms.exception.IllegalOperationException;
 import com.jsp.wms.exception.WarehouseNotFoundByIdException;
 
@@ -60,5 +62,15 @@ public class ApplicationHandler {
 	public ResponseEntity<ErrorStructure<String>> handleWarehouseNotFoundById(WarehouseNotFoundByIdException ex){
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Warehouse id not found");
 	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleUsernameNotFound(UsernameNotFoundException ex){
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Username not found in the database");
+	}//is a predefined exception
  
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleAdminNotFoundByEmail(AdminNotFoundByEmailException ex){
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Admin email is not found in the database");
+	}
+	
 }
