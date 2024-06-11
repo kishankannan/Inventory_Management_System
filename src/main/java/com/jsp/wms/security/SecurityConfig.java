@@ -23,7 +23,7 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(authorize ->
-				authorize.requestMatchers("/api/v1/register")
+				authorize.requestMatchers("/api/v1/register" , "/login/**")
 				.permitAll() // making public
 				.anyRequest().authenticated()) // leaving that incoming public url authenticate the other url
 				.formLogin(Customizer.withDefaults())//for high security
