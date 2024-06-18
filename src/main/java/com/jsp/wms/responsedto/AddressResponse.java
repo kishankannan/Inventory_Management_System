@@ -6,16 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class WareHouseResponse {
-
-	private int wareHouseId;
-	private String name;
-	private int totalCapacity;
+public class AddressResponse {
 	
 	private int addressId;
 	private String addressLine;
@@ -23,4 +19,7 @@ public class WareHouseResponse {
 	private String state;
 	private String country;
 	private int pincode;
+	private String latitude;
+	private String longitude;
+	
 }

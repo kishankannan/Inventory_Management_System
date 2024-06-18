@@ -6,7 +6,7 @@ import lombok.Getter;
 @SuppressWarnings("serial")
 @Getter
 @AllArgsConstructor
-public class AdminNotFoundByEmailException extends RuntimeException{
+public class StorageTypeNotFoundByIdException extends RuntimeException{
 
 	private String message;
 }

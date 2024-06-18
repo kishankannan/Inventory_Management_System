@@ -1,10 +1,6 @@
 package com.jsp.wms.entity;
 
-import com.jsp.wms.enums.AdminType;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,18 +12,17 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Admin {
+@NoArgsConstructor
+public class StorageType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int adminId;
-	private String name;
-	private String email;
-	private String password;
-	
-	@Enumerated(EnumType.STRING)
-    AdminType adminType;
+	private int storageTypeId;
+	private double lengthInMeters;
+	private double breadthInMeters;
+	private double heightInMeters;
+	private double capacityInWeight;
+	private int unitsAvailable;
 	
 }
