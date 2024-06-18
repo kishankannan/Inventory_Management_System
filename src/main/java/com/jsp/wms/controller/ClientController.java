@@ -28,7 +28,7 @@ public class ClientController {
 		return clientService.registerClient(clientRequest);
 	}
 
-	@PutMapping("client/clients/{clientId}")
+	@PutMapping("/client/clients/{clientId}")
 	public ResponseEntity<ResponseStructure<ClientResponse>> updateClient(@RequestBody ClientRequest clientRequest,@PathVariable int clientId){
 		return clientService.updateClient(clientRequest, clientId);
 	}

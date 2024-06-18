@@ -27,19 +27,12 @@ public class StorageController {
 	@Autowired
 	private StorageService storageService;
 	
-//	@PreAuthorize("hasAuthority('CREATE_STORAGE')")
-//	@PostMapping("warehouses/{wareHouseId}/storages")
-//	public ResponseEntity<SimpleStructure<String>> createStorage(@RequestBody  StorageRequest storageRequest ,
-//			@PathVariable int wareHouseId, @RequestParam("no_of_storage_units") int noOfStorageUnits ){
-//		return storageService.createStorage(storageRequest , wareHouseId , noOfStorageUnits);
-//	}
-	
-//	@PreAuthorize("hasAuthority('CREATE_STORAGE')")
-//	@PostMapping("warehouses/{wareHouseId}/{storageTypeId}/storages")
-//	public ResponseEntity<SimpleStructure<String>> createStorage(@RequestBody  StorageRequest storageRequest ,
-//			@PathVariable int wareHouseId, int storageTypeId, @RequestParam("no_of_storage_units") int noOfStorageUnits ){
-//		return storageService.createStorage(storageRequest ,wareHouseId, storageTypeId , noOfStorageUnits);
-//	}
+	@PreAuthorize("hasAuthority('CREATE_STORAGE')")
+	@PostMapping("/warehouses/{wareHouseId}/storagetypes/{storageTypeId}/storages")
+	public ResponseEntity<SimpleStructure<String>> createStorage(@RequestBody  StorageRequest storageRequest ,
+			@PathVariable int wareHouseId, @RequestParam("no_of_storage_units") int noOfStorageUnits, @PathVariable int storageTypeId ){
+		return storageService.createStorage(storageRequest ,wareHouseId , noOfStorageUnits, storageTypeId);
+	}
 	
 	@PreAuthorize("hasAuthority('UPDATE_STORAGE')")
 	@PutMapping("/storages/{storageId}")
@@ -48,10 +41,5 @@ public class StorageController {
 		return storageService.updateStorage(storageId, storageRequest);
 	}
 	
-//	@PreAuthorize("hasAuthority('READ')")
-//	@GetMapping("/storages/{capacityInWeight}/{lengthInMeters}/{breadthInMeters}/{heightInMeters}")
-//	public ResponseEntity<ResponseStructure<StorageResponse>> findByCapacityInKgAndLengthInMetersAndBreadthInMetersAndHeightInMeters(@PathVariable double capacityInWeight, double lengthInMeters, double breadthInMeters, double heightInMeters){
-//		return storageService.findByCapacityInKgAndLengthInMetersAndBreadthInMetersAndHeightInMeters(capacityInWeight,lengthInMeters,breadthInMeters,heightInMeters);
-//	}
-	
+
 }

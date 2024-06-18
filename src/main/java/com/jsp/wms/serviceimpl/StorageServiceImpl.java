@@ -41,41 +41,43 @@ public class StorageServiceImpl implements StorageService{
 	@Autowired
 	private StorageTypeRepository storageTypeRepository;
 	
-//	@Autowired
-//	private StorageTypeRequest storageTypeRequest;
+	@Override
+	public ResponseEntity<SimpleStructure<String>> createStorage(StorageRequest storageRequest, int wareHouseId, int noOfStorageUnits, int storageTypeId) {
+		WareHouse wareHouse =  wareHouseRespository.findById(wareHouseId).orElseThrow(()-> new WarehouseNotFoundByIdException("Warehouse Not found by id"));
+		StorageType storageType = storageTypeRepository.findById(storageTypeId).orElseThrow(()-> new StorageTypeNotFoundByIdException("Storage Type not available"));
+		
+		List<Storage> storages = new ArrayList<Storage>();
 
-//	@Override
-//	public ResponseEntity<SimpleStructure<String>> createStorage(StorageRequest storageRequest, int wareHouseId, int noOfStorageUnits) {
-//
-//		WareHouse wareHouse =  wareHouseRespository.findById(wareHouseId).orElseThrow(()-> new WarehouseNotFoundByIdException(""));
-//
-//		List<Storage> storages = new ArrayList<Storage>();
-//
-//		int count = 0;
-//
-//		while(noOfStorageUnits > 0) {
-//
-//			Storage storage  = storageMapper.mapToStorage(storageRequest, new Storage());
-//
-//			storage.setMaxAdditionalWeight(storageRequest.getCapacityInWeight());
-//			storage.setAvailableArea(storageRequest.getLengthInMeters() * storageRequest.getBreadthInMeters() * storageRequest.getHeightInMeters());
-//
-//			wareHouse.setTotalCapacityInKg(storageRequest.getCapacityInWeight() * noOfStorageUnits + wareHouse.getTotalCapacityInKg());
-//			storage.setWareHouse(wareHouse);
-//
-//			storages.add(storage);
-//			count++;
-//			noOfStorageUnits --;
-//		}
-//
-//		storageRepository.saveAll(storages);
-//
-//
-//		return ResponseEntity.status(HttpStatus.CREATED).body(new SimpleStructure<String>()
-//				.setStatus(HttpStatus.CREATED.value())
-//				.setMesssage(""+count + " Storages created"));
-//
-//	}
+		int count = 0;
+
+		while(noOfStorageUnits > 0) {
+
+			Storage storage  = storageMapper.mapToStorage(storageRequest, new Storage());
+
+			storage.setMaxAdditionalWeight(storageType.getCapacityInWeight());
+			storage.setAvailableArea(storageType.getLengthInMeters() * storageType.getBreadthInMeters() * storageType.getHeightInMeters());
+
+			wareHouse.setTotalCapacityInKg(storageType.getCapacityInWeight() * noOfStorageUnits + wareHouse.getTotalCapacityInKg());
+			storageType.setUnitsAvailable(storageType.getUnitsAvailable()+noOfStorageUnits);
+			
+			storage.setWareHouse(wareHouse);
+			storage.setStorageType(storageType);
+
+			storages.add(storage);
+			count++;
+			noOfStorageUnits --;
+		}
+
+		storageRepository.saveAll(storages);
+		wareHouseRespository.save(wareHouse);
+		storageTypeRepository.save(storageType);
+
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(new SimpleStructure<String>()
+				.setStatus(HttpStatus.CREATED.value())
+				.setMesssage(""+count + " Storages created"));
+
+	}
 	
 	@Override
 	public ResponseEntity<ResponseStructure<StorageResponse>> updateStorage(int storageId, StorageRequest storageRequest) {
@@ -83,7 +85,7 @@ public class StorageServiceImpl implements StorageService{
 		return storageRepository.findById(storageId).map(existingStorage -> {
 			
 			existingStorage = storageMapper.mapToStorage(storageRequest, existingStorage);
-			storageRepository.save(existingStorage);
+			existingStorage = storageRepository.save(existingStorage);
 			
 			return ResponseEntity.status(HttpStatus.OK).body(new ResponseStructure<StorageResponse>()
 					.setStatus(HttpStatus.OK.value())
@@ -93,50 +95,6 @@ public class StorageServiceImpl implements StorageService{
 			
 		}).orElseThrow(()-> new StorageNotFoundByIdException("Storage Not Found"));
 	}
-
-//	@Override
-//	public ResponseEntity<SimpleStructure<String>> createStorage(StorageRequest storageRequest, int wareHouseId,
-//			int storageTypeId, int noOfStorageUnits) {
-//		WareHouse wareHouse =  wareHouseRespository.findById(wareHouseId).orElseThrow(()-> new WarehouseNotFoundByIdException(""));
-//		StorageType storageType = storageTypeRepository.findById(storageTypeId).orElseThrow(()-> new StorageTypeNotFoundByIdException(""));
-//		
-//		List<Storage> storages = new ArrayList<Storage>();
-//
-//		int count = 0;
-//
-//		while(noOfStorageUnits > 0) {
-//
-//			Storage storage  = storageMapper.mapToStorage(storageRequest, new Storage());
-//
-//			storage.setMaxAdditionalWeight(storageTypeRequest.getCapacityInWeight());
-//			storage.setAvailableArea(storageTypeRequest.getLengthInMeters() * storageTypeRequest.getBreadthInMeters() * storageTypeRequest.getHeightInMeters());
-//
-//			wareHouse.setTotalCapacityInKg(storageTypeRequest.getCapacityInWeight() * noOfStorageUnits + wareHouse.getTotalCapacityInKg());
-//			storageType.setUnitsAvailable(storageType.getUnitsAvailable()+noOfStorageUnits);
-//			
-//			storage.setWareHouse(wareHouse);
-//
-//			storages.add(storage);
-//			count++;
-//			noOfStorageUnits --;
-//		}
-//
-//		storageRepository.saveAll(storages);
-//
-//
-//		return ResponseEntity.status(HttpStatus.CREATED).body(new SimpleStructure<String>()
-//				.setStatus(HttpStatus.CREATED.value())
-//				.setMesssage(""+count + " Storages created"));
-//
-//	}
-
-//	@Override
-//	public ResponseEntity<ResponseStructure<StorageResponse>> findByCapacityInKgAndLengthInMetersAndBreadthInMetersAndHeightInMeters(double capacityInWeight, double lengthInMeters, double breadthInMeters, double heightInMeters) {
-//		
-//		
-//		return null;
-//		
-//	}
 
 
 }
