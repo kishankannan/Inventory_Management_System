@@ -1,10 +1,6 @@
 package com.jsp.wms.entity;
 
-import com.jsp.wms.enums.AdminType;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,18 +12,16 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Admin {
+@NoArgsConstructor
+public class Client {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int adminId;
-	private String name;
+	private int clientId;
+	private String businessName;
 	private String email;
-	private String password;
+	private long contactNumber;
 	
-	@Enumerated(EnumType.STRING)
-    AdminType adminType;
-	
+	private String apiKey;
 }

@@ -1,8 +1,11 @@
 package com.jsp.wms.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +35,25 @@ public class WareHouseController {
 	@PutMapping("/warehouses/{wareHouseId}")
 	public ResponseEntity<ResponseStructure<WareHouseResponse>> updateWareHouse(@RequestBody WareHouseRequest wareHouseRequest, @PathVariable int wareHouseId){
 		return wareHouseService.updateWareHouse(wareHouseRequest , wareHouseId);
+	}
+	
+	@PreAuthorize("hasAuthority('READ')")
+	@GetMapping("/warehouses/{wareHouseId}")
+	public ResponseEntity<ResponseStructure<WareHouseResponse>> findWareHouse(@PathVariable int wareHouseId){
+		return wareHouseService.findWareHouse(wareHouseId);
+		
+	}
+	
+	@PreAuthorize("hasAuthority('READ')")
+	@GetMapping("/warehouses")
+	public ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findWareHouses() {
+	    return wareHouseService.findWareHouses();
+	}
+	
+	@PreAuthorize("hasAuthority('READ')")
+	@GetMapping("/cities/{city}/warehouses")
+	public ResponseEntity<ResponseStructure<List<WareHouseResponse>>> findWarehousesByCity(@PathVariable String city){
+		return wareHouseService.findWarehousesByCity(city);
 	}
 	
 }

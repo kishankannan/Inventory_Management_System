@@ -2,8 +2,6 @@ package com.jsp.wms.serviceimpl;
 
 import java.util.List;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.jsp.wms.entity.Admin;
-import com.jsp.wms.entity.WareHouse;
 import com.jsp.wms.enums.AdminType;
-import com.jsp.wms.enums.Privilege;
 import com.jsp.wms.exception.AdminNotFoundByEmailException;
+import com.jsp.wms.exception.AdminNotFoundByIdException;
 import com.jsp.wms.exception.IllegalOperationException;
 import com.jsp.wms.exception.WarehouseNotFoundByIdException;
 import com.jsp.wms.mapper.AdminMapper;
@@ -91,4 +88,50 @@ public class AdminServiceImpl implements AdminService{
             				.setData(adminMapper.mapToAdminResponse(admin)));
             		}).orElseThrow(()-> new AdminNotFoundByEmailException("Admin not found"));
 	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> updateAdminBySuperAdmin(@Valid AdminRequest adminRequest,
+			int adminId) {
+		
+		return adminRepository.findById(adminId).map(exAdmin ->{
+			
+			exAdmin = adminMapper.mapToAdmin(adminRequest, exAdmin);
+			
+			Admin admin = adminRepository.save(exAdmin);
+			
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(new ResponseStructure<AdminResponse>()
+							.setStatus(HttpStatus.OK.value())
+							.setMessage("Admin updated")
+							.setData(adminMapper.mapToAdminResponse(admin)));
+		}).orElseThrow(()-> new AdminNotFoundByIdException("Admin not found"));
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<AdminResponse>> findAdminById(int adminId) {
+		
+		return adminRepository.findById(adminId).map(admin -> {
+			
+			return ResponseEntity.status(HttpStatus.FOUND)
+					.body(new ResponseStructure<AdminResponse>()
+							.setStatus(HttpStatus.FOUND.value())
+							.setMessage("Admin Found")
+							.setData(adminMapper.mapToAdminResponse(admin)));
+		}).orElseThrow(()-> new AdminNotFoundByIdException("Admin not found"));
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<List<AdminResponse>>> findAdmins() {
+		List<AdminResponse> admins = adminRepository.findAllByAdminType(AdminType.ADMIN).stream()
+				.map(adminMapper :: mapToAdminResponse).toList();
+					
+					return ResponseEntity.status(HttpStatus.FOUND)
+							.body(new ResponseStructure<List<AdminResponse>>()
+									.setStatus(HttpStatus.FOUND.value())
+									.setMessage("Admins Found")
+									.setData(admins));
+				}
+	
+
+	
 }

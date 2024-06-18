@@ -1,7 +1,5 @@
 package com.jsp.wms.util;
 
-import java.util.Map;
-
 public class ErrorStructure<T> {
 
 	private int status;
@@ -17,16 +15,17 @@ public class ErrorStructure<T> {
 	public T getRootcause() {
 		return rootcause;
 	}
-	public ErrorStructure setStatus(int status) {
+	public ErrorStructure<T> setStatus(int status) {
 		this.status = status;
 		return this;
 	}
-	public ErrorStructure setMessage(String message) {
+	public ErrorStructure<T> setMessage(String message) {
 		this.message = message;
 		return this;
 	}
-	public ErrorStructure setRootcause(T rootcause) {
+	public ErrorStructure<T> setRootcause(T rootcause) {
 		this.rootcause = rootcause;
 		return this;
 	}
+	
 }

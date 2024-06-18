@@ -10,6 +10,7 @@ import com.jsp.wms.entity.Admin;
 
 import lombok.AllArgsConstructor;
 
+@SuppressWarnings("serial")
 @AllArgsConstructor
 public class UserDetailImpl implements UserDetails{
 	
