@@ -32,7 +32,7 @@ public class SecurityConfig {
 	@Order(2)
 	SecurityFilterChain securityFilterChain( HttpSecurity security) throws Exception {
 		return security.csrf(csrf -> csrf.disable())
-				.securityMatchers(matcher -> matcher.requestMatchers( "/api/v1/*", "/login/*") )
+				.securityMatchers(matcher -> matcher.requestMatchers( "/api/v1/**", "/login/**") )
 				.authorizeHttpRequests( authorize ->authorize.requestMatchers("/api/v1/register" ,"/login/**")
 						.permitAll().anyRequest().authenticated())
 				.formLogin( Customizer.withDefaults()).build(); 
