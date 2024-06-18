@@ -24,7 +24,6 @@ public class StorageMapper {
 				.storageId(storage.getStorageId())
 				.blockName(storage.getBlockName())
 				.section(storage.getSection())
-				.materialTypes(storage.getMaterialTypes())
 				.availableArea(storage.getAvailableArea())
 				.maxAdditionalWeight(storage.getMaxAdditionalWeight())
 				.materialTypes(storage.getMaterialTypes())
