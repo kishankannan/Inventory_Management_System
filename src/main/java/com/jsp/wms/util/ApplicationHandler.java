@@ -18,6 +18,7 @@ import com.jsp.wms.exception.AdminNotFoundByEmailException;
 import com.jsp.wms.exception.AdminNotFoundByIdException;
 import com.jsp.wms.exception.ClientNotFoundByIdException;
 import com.jsp.wms.exception.IllegalOperationException;
+import com.jsp.wms.exception.InventoryNotFoundByIdException;
 import com.jsp.wms.exception.StorageNotFoundByIdException;
 import com.jsp.wms.exception.StorageTypeNotFoundByIdException;
 import com.jsp.wms.exception.WareHouseNotFoundByCityException;
@@ -102,5 +103,10 @@ public class ApplicationHandler {
 	@ExceptionHandler
 	public ResponseEntity<ErrorStructure<String>> handleStorageTypeNotFoundByIdException(StorageTypeNotFoundByIdException ex){
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Storage Type not found by id");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleInventoryNotFoundByIdException(InventoryNotFoundByIdException ex){
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), "Inventory not found by id");
 	}
 }

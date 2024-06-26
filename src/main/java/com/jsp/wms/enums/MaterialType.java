@@ -10,5 +10,5 @@ public enum MaterialType {
 	PLASTIC,
 	PAPER,
 	STEEL,
-	
+	SHOES
 }

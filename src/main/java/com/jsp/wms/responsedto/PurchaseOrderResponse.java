@@ -11,10 +11,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdminResponse {
+public class PurchaseOrderResponse {
 
-	private int adminId;
-	private String name;
-	private String email;
-	
+	private int orderId;
+	private int orderQuantity;
+	private String invoiceLink;
+	private int customerId;
+	private String status;
 }

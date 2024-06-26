@@ -11,10 +11,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdminResponse {
+public class BatchResponse {
 
-	private int adminId;
-	private String name;
-	private String email;
+	private int batchId;
+	private int quantity;
 	
+	StorageResponse storage;
 }
