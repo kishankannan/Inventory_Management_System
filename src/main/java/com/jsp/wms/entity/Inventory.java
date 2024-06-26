@@ -1,5 +1,6 @@
 package com.jsp.wms.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.jsp.wms.enums.MaterialType;
@@ -19,31 +20,33 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Storage {
+public class Inventory {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int storageId;
-	private String blockName;
-	private String section;
-
+	private int productId;
+	private String productTitle;
+	private double lengthInMeters;
+	private double breadthInMeters;
+	private double heightInMeters;
+	private double weightInKg;
+	
 	@Enumerated(EnumType.STRING)
 	List<MaterialType> materialTypes;
-	private double maxAdditionalWeight;
-	private double availableArea;
-	
+	private LocalDate restockedAt;
 	private int sellerId;
-
-	@ManyToOne
-	private WareHouse wareHouse;
+	
 	
 	@ManyToOne
-	private StorageType storageType;
+	private Client client;
 	
-	@OneToMany(mappedBy = "storage")
+	@ManyToMany
+	private List<PurchaseOrder> purchaseOrders;
+	
+	@OneToMany(mappedBy = "inventory")
 	private List<Batch> batchs;
-	
 }

@@ -55,14 +55,14 @@ public class StorageServiceImpl implements StorageService{
 
 			Storage storage  = storageMapper.mapToStorage(storageRequest, new Storage());
 
+			storage.setWareHouse(wareHouse);
+			storage.setStorageType(storageType);
 			storage.setMaxAdditionalWeight(storageType.getCapacityInWeight());
 			storage.setAvailableArea(storageType.getLengthInMeters() * storageType.getBreadthInMeters() * storageType.getHeightInMeters());
 
 			wareHouse.setTotalCapacityInKg(storageType.getCapacityInWeight() * noOfStorageUnits + wareHouse.getTotalCapacityInKg());
 			storageType.setUnitsAvailable(storageType.getUnitsAvailable()+noOfStorageUnits);
 			
-			storage.setWareHouse(wareHouse);
-			storage.setStorageType(storageType);
 
 			storages.add(storage);
 			count++;

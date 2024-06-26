@@ -1,7 +1,6 @@
-package com.jsp.wms.responsedto;
+package com.jsp.wms.requestdto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,11 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class AdminResponse {
+public class PurchaseOrderRequest {
 
-	private int adminId;
-	private String name;
-	private String email;
-	
+	private int orderQuantity;
+	private String invoiceLink;
+	private int customerId;
 }
